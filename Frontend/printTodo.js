@@ -7,13 +7,15 @@ export default function printTodo() {
     .then(data => {
 
         const ul = document.createElement('ul')
-        todoListContainer.appendChild(ul)
-
+        
         for (let i = 0; i < data.length; i++) {
 
             const li = document.createElement('li');
             li.innerText = data[i].todoName
             ul.appendChild(li)
         }
+        
+        todoListContainer.innerHTML = ""
+        todoListContainer.appendChild(ul)
     })
 }

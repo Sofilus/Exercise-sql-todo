@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var connection = require('../conn')
 
-router.get('/all', function(req, res, next) {
+router.get('/all', function(req, res) {
 
   connection.connect((err) => {
     if (err) {
@@ -13,11 +13,30 @@ router.get('/all', function(req, res, next) {
       if (err) {
         console.log("err", err)
       }
-      console.log("data from", data)
       res.json(data)
     })
   })
 
 });
+
+router.post('/add', function(req,res) {
+
+  let newTodo = req.body
+
+  connection.connect((err) => {
+    if (err) {
+      console.log("err", err)
+    }
+
+    let sql = "INSERT INTO todos (todoName) VALUES ('"+newTodo.todoName+"')"
+
+    connection.query(sql, (err, data) => {
+      if (err) {
+        console.log("err", err)
+      }
+      res.json(data)
+    })
+  })
+})
 
 module.exports = router;
